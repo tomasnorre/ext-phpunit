@@ -18,15 +18,37 @@
     ],
     "license": "GPL-2.0+",
     "require-dev": {
-        "phpunit/phpunit": "^4.6",
+        "phpunit/phpunit": "^4.7",
         "phpunit/phpunit-selenium": "<2.0",
         "mikey179/vfsStream": "<2.0"
     },
     "autoload": {
-        "classmap": ["Classes"]
+        "classmap": ["Classes"],
+        "psr-4": {
+          "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+        }
     },
     "replace": {
         "phpunit": "self.version",
         "typo3-ter/phpunit": "self.version"
+    },
+    "config": {
+      "vendor-dir": ".Build/vendor",
+      "bin-dir": ".Build/bin"
+    },
+    "scripts": {
+      "post-autoload-dump": [
+        "mkdir -p .Build/Web/typo3conf/ext/",
+        "[ -L .Build/Web/typo3conf/ext/phpunit ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/phpunit"
+      ]
+    },
+    "extra": {
+      "branch-alias": {
+        "dev-master": "1.0.x-dev"
+      },
+      "typo3/cms": {
+        "cms-package-dir": "{$vendor-dir}/typo3/cms",
+        "web-dir": ".Build/Web"
+      }
     }
 }
